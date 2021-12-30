@@ -2,19 +2,19 @@ import { compareSync } from "bcrypt";
 import User from "../Models/User.js";
 import * as refresh from "../services/refreshToken.js";
 import jwt from "../services/jwt.js";
+import Validator from "../middleware/validator.js";
+
+const conf = {
+  validators: {
+    email: "required|email",
+    password: "required|min:10#Number"
+  }
+}
 
 export default function (app) {
-  app.post("/login", (req, res) => {
+  app.post("/login", new Validator(conf).body(), (req, res) => {
     const rawPass = req.body?.password?.trim();
     const email = req.body?.email?.trim();
-
-    if (!email || !rawPass) {
-      res.json({
-        verify: false,
-        message: "Все поля обязательны для заполнения.",
-      });
-      return;
-    }
 
     User.findOne({ email }).exec(async (err, user) => {
       try {
