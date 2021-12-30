@@ -16,5 +16,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(formData.parse());
 
-routes(app);
-app.listen(config.httpPort);
+mongoose.connect(config.mongoConnect, (err) => {
+  if (err) return console.log(err);
+  else console.log("mongodb connection");
+
+  routes(app);
+
+  app.listen(config.httpPort);
+});
