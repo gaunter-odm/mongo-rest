@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 
 const uuid = v4;
 
-const schemeUsers = mongoose.Schema({
+export default mongoose.Schema({
   uuid: { type: String, required: true, default: uuid, unique: true },
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
@@ -11,8 +11,6 @@ const schemeUsers = mongoose.Schema({
   isValid: { type: Boolean, required: true, default: false },
   created_at: { type: String, required: true, default: Date.now },
   updated_at: { type: String, required: true, default: Date.now },
-  role: {type: String, default: "user"},
+  role: { type: String, default: "user" },
   avatar: { type: String },
 });
-
-export default schemeUsers;
